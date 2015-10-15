@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">学员管理系统</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="information_write">学员信息修改</string>
+    <string name="myButton">添加</string>
+    <string name="button1">男</string>
+    <string name="button2">女</string>
+    <string name="box1">唱歌</string>
+    <string name="box2">跳舞</string>
+    <string name="box3">健身</string>
+    <string name="spinner">请选择</string>
+
+</resources>

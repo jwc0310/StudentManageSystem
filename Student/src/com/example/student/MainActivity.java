@@ -3,6 +3,8 @@ package com.example.student;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.socketclient.Client;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -45,6 +47,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 	    private StudentDao dao;
 	    private Student student;
 	    private Boolean isDeleteList = false;
+	    private Client cc;
 	
 	
     @Override
@@ -53,7 +56,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         setContentView(R.layout.mainui);
         Log.e("TAG", "onCreate1");
         
-        
+        cc = new Client();
         list = new ArrayList<Long>();
         student = new Student();
         
@@ -81,8 +84,20 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         listView.setOnItemLongClickListener(this);
         listView.setOnCreateContextMenuListener(this);
         
+        new Thread(run).start();
+        
     }
 
+    Runnable run = new Runnable(){
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			cc.connect();
+			cc.sendMessage("hello server");
+			cc.getMessage();
+		}
+    };
     @Override
     protected void onStart() {
         // 调用load()方法将数据库中的所有记录显示在当前页面

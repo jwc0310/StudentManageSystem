@@ -34,7 +34,7 @@ public class DBHelper {
 			Class.forName(name);
 			System.out.println("数据库驱动加载成功！！");
 			//获取连接
-			conn = DriverManager.getConnection(url+database,user,password);
+			conn = DriverManager.getConnection(url+database+"?characterEncoding=utf8",user,password);
 			System.out.println("数据库连接成功！！");
 			
 		}catch(Exception e){

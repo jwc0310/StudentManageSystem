@@ -27,6 +27,8 @@ public class Server {
 	//serversocket∂‘œÛ
 	private ServerSocket mServerSocket;
 	
+	public static String request = null;
+	
 	public Server(){
 		try{
 			
@@ -88,6 +90,8 @@ public class Server {
 						mSocket.close();
 						break;
 					}else{
+						request = mStrMSG;
+						System.out.println(request);
 						mStrMSG = mSocket.getInetAddress()+":"+mStrMSG;
 						sendMessage();
 					}

@@ -34,6 +34,22 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="选择" />
+
+        <Button
+            android:id="@+id/aa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/bn_search_id"
+            android:text="aa" />
+
+        <Button
+            android:id="@+id/bb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="bb" />
         
     </RelativeLayout>
 

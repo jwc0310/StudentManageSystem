@@ -47,8 +47,10 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 	    private StudentDao dao;
 	    private Student student;
 	    private Boolean isDeleteList = false;
+	    
+	    
 	    private Client cc;
-	
+	    private Button aa,bb;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,9 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         canleButton = (Button) findViewById(R.id.bn_canel);
         layout = (LinearLayout) findViewById(R.id.showLiner);
         relativeLayout=(RelativeLayout) findViewById(R.id.RelativeLayout);
+        aa = (Button)findViewById(R.id.aa);
+        bb = (Button)findViewById(R.id.bb);
+        
         listView = getListView();
         
         
@@ -79,6 +84,8 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         deleteButton.setOnClickListener(this);
         canleButton.setOnClickListener(this);
         selectAllButton.setOnClickListener(this);
+        aa.setOnClickListener(this);
+        bb.setOnClickListener(this);
         
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
@@ -94,8 +101,8 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 		public void run() {
 			// TODO Auto-generated method stub
 			cc.connect();
-			cc.sendMessage("hello server");
-			cc.getMessage();
+			//cc.sendMessage("hello server");
+			//cc.getMessage();
 		}
     };
     @Override
@@ -144,7 +151,16 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         } else if (v == selectAllButton) {
             // 全选，如果当前全选按钮显示是全选，则在点击后变为取消全选，如果当前为取消全选，则在点击后变为全选
             selectAllMethods();
+        } else if(v == aa){
+        	cc.sendMessage("select * from students");
+        } else if(v == bb){
+        	
         }
+		
+		
+		
+		
+		
 	}
 
 

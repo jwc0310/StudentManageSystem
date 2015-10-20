@@ -16,15 +16,16 @@ public class Client {
 	Socket socket = null;
 	PrintWriter pw;
 	BufferedReader br;
-	
+	String str = null;
 	public Client(){
 		
 	}
 	public void connect(){
 		try {
 			socket = new Socket("192.168.61.110",54321);
-			pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true);
+			pw = new PrintWriter(socket.getOutputStream(),true);
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			new Thread(run).start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,8 +35,28 @@ public class Client {
 		}
 	}
 	
+	private Runnable run = new Runnable(){
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			while(true){
+				try {
+					if((str = br.readLine())!=null){
+						Log.i("Andy", str+"\n");
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	};
+	
 	public void sendMessage(String str){
 		pw.println(str);
+		
 	}
 	
 	public String getMessage(){

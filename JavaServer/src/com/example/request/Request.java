@@ -1,7 +1,10 @@
-package com.my.request;
+package com.example.request;
 
-public class Request {
+import java.io.Serializable;
 
+public class Request implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	//1 add,2 delete,3 modify,4 find
 	public int type;
 	public String condition;

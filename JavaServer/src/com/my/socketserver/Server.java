@@ -2,6 +2,8 @@ package com.my.socketserver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -13,6 +15,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import com.example.request.Request;
 
 
 public class Server {
@@ -59,13 +63,14 @@ public class Server {
 		private PrintWriter mPrintWriter;
 		private String mStrMSG;
 		
-		
+		private ObjectInputStream ois = null;
+		private ObjectOutputStream oos = null;
 		
 		public ThreadServer(Socket socket) throws IOException{
 			this.mSocket = socket;
-			mBufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			mStrMSG = "user: "+this.mSocket.getInetAddress()+" come total: "+mClientList.size();
-			sendMessage();
+			//mBufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			//mStrMSG = "user: "+this.mSocket.getInetAddress()+" come total: "+mClientList.size();
+			//sendMessage();
 		}
 		
 		//发送消息给所有客户端
@@ -80,6 +85,29 @@ public class Server {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			try {
+				ois = new ObjectInputStream(mSocket.getInputStream());
+				Object obj = null;
+				try {
+					while(true){
+						
+						if((obj = ois.readObject())!=null){
+							Request req = (Request)obj;
+							System.out.println("Request type "+req.getType());
+							System.out.println(req.getCondition());
+						}
+					}
+					
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			/*
 			try{
 				while((mStrMSG = mBufferedReader.readLine())!=null){
 					if(mStrMSG.trim().equals("exit")){
@@ -99,6 +127,7 @@ public class Server {
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+			*/
 		}
 		
 	}

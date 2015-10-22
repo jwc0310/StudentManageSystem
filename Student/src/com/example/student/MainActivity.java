@@ -1,8 +1,10 @@
 package com.example.student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.request.Request;
 import com.example.socketclient.Client;
 
 import android.app.Activity;
@@ -152,7 +154,15 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
             // 全选，如果当前全选按钮显示是全选，则在点击后变为取消全选，如果当前为取消全选，则在点击后变为全选
             selectAllMethods();
         } else if(v == aa){
-        	cc.sendMessage("select * from students");
+        	Request req = new Request();
+        	req.setType(0);
+        	req.setCondition("select * from students");
+        	try {
+				cc.sendMessage(req);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } else if(v == bb){
         	
         }

@@ -4,27 +4,40 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import com.example.request.Request;
 
 import android.util.Log;
 
 public class Client {
 	
 	Socket socket = null;
+	//传输字符
 	PrintWriter pw;
 	BufferedReader br;
+	
+	//传输对象
+	ObjectOutputStream oos = null;
+	ObjectInputStream ois = null;
+	
 	String str = null;
 	public Client(){
 		
 	}
 	public void connect(){
 		try {
-			socket = new Socket("192.168.61.110",54321);
-			pw = new PrintWriter(socket.getOutputStream(),true);
+			socket = new Socket("192.168.61.105",54321);
+			//pw = new PrintWriter(socket.getOutputStream(),true);
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			
 			new Thread(run).start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -40,6 +53,7 @@ public class Client {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			
 			while(true){
 				try {
 					if((str = br.readLine())!=null){
@@ -54,8 +68,13 @@ public class Client {
 		
 	};
 	
-	public void sendMessage(String str){
-		pw.println(str);
+	public void sendMessage(Request req) throws IOException{
+		//pw.println(str);
+		//pw.flush();
+		
+		oos.writeObject(req);
+		oos.flush();
+		//
 		
 	}
 	

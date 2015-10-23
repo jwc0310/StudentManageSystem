@@ -155,7 +155,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
             selectAllMethods();
         } else if(v == aa){
         	Request req = new Request();
-        	req.setType(0);
+        	req.setType(4);
         	req.setCondition("select * from students");
         	try {
 				cc.sendMessage(req);

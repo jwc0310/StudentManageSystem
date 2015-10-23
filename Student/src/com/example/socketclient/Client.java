@@ -6,12 +6,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.request.Request;
+import com.my.stu.StuInfo;
 
 import android.util.Log;
 
@@ -37,6 +41,7 @@ public class Client {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
 			
 			new Thread(run).start();
 		} catch (UnknownHostException e) {
@@ -53,7 +58,36 @@ public class Client {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			Object obj = null;
+			List<StuInfo> list = new ArrayList<StuInfo>();
+			while(true){
+				try {
+					if((obj = ois.readObject()) != null){
+						list = (List<StuInfo>)obj;
+						for(StuInfo m : list){
+							
+							Log.i("Andy", "-------------------");
+							Log.i("Andy", String.valueOf(m.getId()));
+							Log.i("Andy", m.getName());
+							Log.i("Andy", m.getSex());
+							Log.i("Andy", String.valueOf(m.getAge()));
+							Log.i("Andy", m.getTel());
+							
+						}
+					}
+				} catch (OptionalDataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			
+			/*
 			while(true){
 				try {
 					if((str = br.readLine())!=null){
@@ -64,6 +98,7 @@ public class Client {
 					e.printStackTrace();
 				}
 			}
+			*/
 		}
 		
 	};

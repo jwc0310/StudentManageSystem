@@ -1,6 +1,8 @@
 package com.my.stu;
 
-public class StuInfo {
+import java.io.Serializable;
+
+public class StuInfo implements Serializable {
 
 	private int id;
 	private String name;

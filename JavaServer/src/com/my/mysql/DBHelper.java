@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.my.stu.StuInfo;
+
 
 public class DBHelper {
 
@@ -19,6 +21,8 @@ public class DBHelper {
 	public static final String name= "com.mysql.jdbc.Driver";
 	public static final String user = "root";
 	public static final String password = "666666";
+	
+	
 	
 	private ResultSet ret=null;
 	
@@ -41,6 +45,7 @@ public class DBHelper {
 			e.printStackTrace();
 		}
 	}
+	
 	//Ôö
 	public boolean insert(String sql,Object[] params){
 		
@@ -114,8 +119,6 @@ public class DBHelper {
 					sql=sql+" "+params[i];
 				}
 			}
-			
-			
 			//ret = pst.executeQuery();
 			ret = st.executeQuery(sql);
 			
@@ -127,10 +130,42 @@ public class DBHelper {
 		return ret;
 	}
 	
+	public List<StuInfo> queryStu(String sql,Object[] params){
+		ResultSet rs = executeQueryRS(sql,params);
+		
+		ResultSetMetaData rsmd = null;
+		int columnCount = 0;
+		
+		try {
+			rsmd = rs.getMetaData();
+			columnCount = rsmd.getColumnCount();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<StuInfo> stuList = new ArrayList<StuInfo>();
+		try {
+			while(rs.next()){
+				StuInfo stu = new StuInfo();
+				stu.setId(Integer.parseInt(rs.getString("id")));
+				stu.setName(rs.getString("name"));
+				stu.setSex(rs.getString("sex"));
+				stu.setAge(Integer.parseInt(rs.getString("age")));
+				stu.setTel(rs.getString("tel"));
+				
+				stuList.add(stu);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return stuList;
+	}
+	
 	//²é
 	public List<Object> query(String sql,Object[] params){
 		ResultSet rs = executeQueryRS(sql,params);
-		
 		ResultSetMetaData rsmd = null;
 		int columnCount = 0;
 		
@@ -140,9 +175,7 @@ public class DBHelper {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 		List<Object> list = new ArrayList<Object>();
-		
 		try{
 			while(rs.next()){
 				Map<String,Object> map = new HashMap<String,Object>();

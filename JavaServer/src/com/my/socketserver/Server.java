@@ -13,15 +13,22 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.example.request.Request;
+import com.my.mysql.DBHelper;
+import com.my.stu.StuInfo;
 
 
 public class Server {
 	//ServerPort 
 	private static final int SERVERPORT = 54321;
+	public static final int DB_INSERT =1;
+	public static final int DB_DELETE = 2;
+	public static final int DB_MODIFY =3;
+	public static final int DB_QUERY = 4;
 	//client connection
 	private static List<Socket> mClientList = new ArrayList<Socket>();
 	
@@ -61,6 +68,8 @@ public class Server {
 		private Socket mSocket;
 		private BufferedReader mBufferedReader;
 		private PrintWriter mPrintWriter;
+		
+		
 		private String mStrMSG;
 		
 		private ObjectInputStream ois = null;
@@ -87,6 +96,7 @@ public class Server {
 			// TODO Auto-generated method stub
 			try {
 				ois = new ObjectInputStream(mSocket.getInputStream());
+				oos = new ObjectOutputStream(mSocket.getOutputStream());
 				Object obj = null;
 				try {
 					while(true){
@@ -95,6 +105,29 @@ public class Server {
 							Request req = (Request)obj;
 							System.out.println("Request type "+req.getType());
 							System.out.println(req.getCondition());
+							
+							DBHelper dbh = new DBHelper("mydatabase");
+							List<StuInfo> list = new ArrayList<StuInfo>();
+							switch(req.type){
+							case DB_QUERY:
+								list = (dbh.queryStu(req.getCondition(), null));
+								for(StuInfo m : list){
+									System.out.println("-------------------");
+									System.out.println(m.getId());
+									System.out.println(m.getName());
+									System.out.println(m.getSex());
+									System.out.println(m.getAge());
+									System.out.println(m.getTel());
+								}
+								oos.writeObject(list);
+								oos.flush();
+								
+								break;
+							default:
+								break;
+							}
+							
+							
 						}
 					}
 					

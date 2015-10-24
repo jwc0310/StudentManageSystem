@@ -64,30 +64,10 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         list = new ArrayList<Long>();
         student = new Student();
         
+        initWidget();
+        
         dao = new StudentDao(new StudentDBHelper(this));
-        addStudent = (Button) findViewById(R.id.btn_add_student);
-        searchButton = (Button) findViewById(R.id.bn_search_id);
-        selectButton = (Button) findViewById(R.id.bn_select);
-        deleteButton = (Button) findViewById(R.id.bn_delete);
-        selectAllButton = (Button) findViewById(R.id.bn_selectall);
-        canleButton = (Button) findViewById(R.id.bn_canel);
-        layout = (LinearLayout) findViewById(R.id.showLiner);
-        relativeLayout=(RelativeLayout) findViewById(R.id.RelativeLayout);
-        aa = (Button)findViewById(R.id.aa);
-        bb = (Button)findViewById(R.id.bb);
-        
-        listView = getListView();
-        
-        
-        // 为按键设置监听
-        addStudent.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
-        selectButton.setOnClickListener(this);
-        deleteButton.setOnClickListener(this);
-        canleButton.setOnClickListener(this);
-        selectAllButton.setOnClickListener(this);
-        aa.setOnClickListener(this);
-        bb.setOnClickListener(this);
+       
         
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
@@ -115,6 +95,31 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 
     }
     
+    private void initWidget(){
+    	 addStudent = (Button) findViewById(R.id.btn_add_student);
+         searchButton = (Button) findViewById(R.id.bn_search_id);
+         selectButton = (Button) findViewById(R.id.bn_select);
+         deleteButton = (Button) findViewById(R.id.bn_delete);
+         selectAllButton = (Button) findViewById(R.id.bn_selectall);
+         canleButton = (Button) findViewById(R.id.bn_canel);
+         layout = (LinearLayout) findViewById(R.id.showLiner);
+         relativeLayout=(RelativeLayout) findViewById(R.id.RelativeLayout);
+         aa = (Button)findViewById(R.id.aa);
+         bb = (Button)findViewById(R.id.bb);
+         
+         listView = getListView();
+         
+         
+         // 为按键设置监听
+         addStudent.setOnClickListener(this);
+         searchButton.setOnClickListener(this);
+         selectButton.setOnClickListener(this);
+         deleteButton.setOnClickListener(this);
+         canleButton.setOnClickListener(this);
+         selectAllButton.setOnClickListener(this);
+         aa.setOnClickListener(this);
+         bb.setOnClickListener(this);
+    }
 
 	@Override
 	public void onClick(View v) {
@@ -166,10 +171,6 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         } else if(v == bb){
         	
         }
-		
-		
-		
-		
 		
 	}
 

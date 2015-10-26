@@ -46,6 +46,7 @@ public class MyBaseAdapter extends BaseAdapter {
 		StuInfo stu = list.get(position);
 		
 		if(holder == null){
+			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.list_item, null);
 			holder.id = (TextView)convertView.findViewById(R.id.id_item);
 			holder.name = (TextView)convertView.findViewById(R.id.name_item);
@@ -54,10 +55,10 @@ public class MyBaseAdapter extends BaseAdapter {
 			holder.tel = (TextView)convertView.findViewById(R.id.tel_item);
 		}
 		
-		holder.id.setText(stu.getId());
+		holder.id.setText(String.valueOf(stu.getId()));
 		holder.name.setText(stu.getName());
 		holder.sex.setText(stu.getSex());
-		holder.age.setText(stu.getAge());
+		holder.age.setText(String.valueOf(stu.getAge()));
 		holder.tel.setText(stu.getTel());
 		
 		return convertView;

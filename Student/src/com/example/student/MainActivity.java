@@ -1,6 +1,7 @@
 package com.example.student;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 	    
 	    private Client cc;
 	    private Button aa,bb;
-	    private List<StuInfo> listStuInfo = null;
+	    private static List<StuInfo> listStuInfo = null;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +85,8 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
     Handler messageHandler = new Handler(){
     	public void handleMessage(Message msg){
     		Log.i("Andy", "Handler is calling !");
-    		@SuppressWarnings("unchecked")
 			//List<StuInfo> list = (List<StuInfo>)msg.getData().getParcelable("List<StuInfo>");
-    		List<StuInfo> listStuInfo = (List<StuInfo>)msg.obj;
+    		listStuInfo = (List<StuInfo>)msg.obj;
     		for(StuInfo m : listStuInfo){
     			
     			Log.i("Andy", "-------------------");
@@ -193,9 +193,17 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 				e.printStackTrace();
 			}
         } else if(v == bb){
-        	Intent intent = new Intent();
-        	intent.setClass(this, Shown.class);
-        	startActivity(intent);
+        	
+        	if(listStuInfo != null){
+        		Intent intent = new Intent();
+        		Bundle bundle = new Bundle();
+        		bundle.putSerializable("StuList", (Serializable)listStuInfo);
+        		intent.putExtras(bundle);
+        		
+            	intent.setClass(this, Shown.class);
+            	startActivity(intent);
+        	}
+        	
         }
 		
 	}

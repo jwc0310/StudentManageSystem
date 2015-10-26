@@ -29,6 +29,7 @@
         <activity android:name=".AddStudentActivity"></activity>
         <activity android:name=".ShowStudentActivity"></activity>
         <activity android:name=".StudentSearch"></activity>
+        <activity android:name=".Shown"></activity>
         
         
         

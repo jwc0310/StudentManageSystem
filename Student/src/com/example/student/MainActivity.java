@@ -73,7 +73,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         listView.setOnItemLongClickListener(this);
         listView.setOnCreateContextMenuListener(this);
         
-        new Thread(run).start();
+        //new Thread(run).start();
         
     }
 
@@ -169,7 +169,9 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 				e.printStackTrace();
 			}
         } else if(v == bb){
-        	
+        	Intent intent = new Intent();
+        	intent.setClass(this, Shown.class);
+        	startActivity(intent);
         }
 		
 	}

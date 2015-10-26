@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ import java.util.List;
 import com.example.request.Request;
 import com.my.stu.StuInfo;
 
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcelable;
 import android.util.Log;
 
 public class Client {
@@ -31,9 +35,17 @@ public class Client {
 	ObjectInputStream ois = null;
 	
 	String str = null;
+	
+	private Handler handler = null;
+	
 	public Client(){
 		
 	}
+	
+	public Client(Handler handler){
+		this.handler = handler;
+	}
+	
 	public void connect(){
 		try {
 			socket = new Socket("192.168.61.105",54321);
@@ -74,6 +86,11 @@ public class Client {
 							Log.i("Andy", m.getTel());
 							
 						}
+						
+						Message msg = new Message();
+						msg.what = 1;
+						msg.obj = list;
+						handler.sendMessage(msg);
 					}
 				} catch (OptionalDataException e) {
 					// TODO Auto-generated catch block

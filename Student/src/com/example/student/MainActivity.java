@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.request.Request;
 import com.example.socketclient.Client;
+import com.my.stu.StuInfo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +16,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +56,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
 	    
 	    private Client cc;
 	    private Button aa,bb;
+	    private List<StuInfo> listStuInfo = null;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         setContentView(R.layout.mainui);
         Log.e("TAG", "onCreate1");
         
-        cc = new Client();
+        cc = new Client(messageHandler);
         list = new ArrayList<Long>();
         student = new Student();
         
@@ -73,10 +77,30 @@ public class MainActivity extends ListActivity implements OnClickListener,OnItem
         listView.setOnItemLongClickListener(this);
         listView.setOnCreateContextMenuListener(this);
         
-        //new Thread(run).start();
+        new Thread(run).start();
         
     }
 
+    Handler messageHandler = new Handler(){
+    	public void handleMessage(Message msg){
+    		Log.i("Andy", "Handler is calling !");
+    		@SuppressWarnings("unchecked")
+			//List<StuInfo> list = (List<StuInfo>)msg.getData().getParcelable("List<StuInfo>");
+    		List<StuInfo> listStuInfo = (List<StuInfo>)msg.obj;
+    		for(StuInfo m : listStuInfo){
+    			
+    			Log.i("Andy", "-------------------");
+				Log.i("Andy", String.valueOf(m.getId())+" "+m.getName()+" "+m.getSex()+" "+String.valueOf(m.getAge())+" "+m.getTel());
+    		}
+    		
+    		
+    		super.handleMessage(msg);  
+    	
+    	}
+    };
+    
+    
+    
     Runnable run = new Runnable(){
 
 		@Override
